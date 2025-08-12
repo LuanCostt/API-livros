@@ -1,0 +1,16 @@
+{
+    "name": "luan/apilivro",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Luan\\Apilivro\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "luan"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
