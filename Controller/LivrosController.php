@@ -20,6 +20,66 @@ class LivrosController
             echo json_encode(["message" => "Livros não encontrados"]);
         }
     }
+    public function getBookId()
+    {
+        $id = $_GET['id'] ?? null;
+
+        if ($id) {
+            $book = new Userlivros();
+            $result = $book->getBookId($id);
+
+            if ($result) {
+                header('Content-Type: application/json', true, 200);
+                echo json_encode($result);
+            } else {
+                header('Content-Type: application/json', true, 404);
+                echo json_encode(["message" => "Livro não encontrado"]);
+            }
+        } else {
+            header('Content-Type: application/json', true, 400);
+            echo json_encode(["message" => "ID inválido"]);
+        }
+    }
+    public function getBooksTitle()
+    {
+        $title = $_GET['title'] ?? null;
+
+        if ($title) {
+            $book = new Userlivros();
+            $result = $book->getBooksTitle($title);
+
+            if ($result) {
+                header('Content-Type: application/json', true, 200);
+                echo json_encode($result);
+            } else {
+                header('Content-Type: application/json', true, 404);
+                echo json_encode(["message" => "Nenhum livro encontrado com o título \"$title\""]);
+            }
+        } else {
+            header('Content-Type: application/json', true, 400);
+            echo json_encode(["message" => "Título inválido"]);
+        }
+    }
+    public function getBooksYear()
+    {
+        $year = $_GET['year'] ?? null;
+
+        if ($year) {
+            $book = new Userlivros();
+            $result = $book->getBooksYear($year);
+
+            if ($result) {
+                header('Content-Type: application/json', true, 200);
+                echo json_encode($result);
+            } else {
+                header('Content-Type: application/json', true, 404);
+                echo json_encode(["message" => "Nenhum livro encontrado para o ano $year"]);
+            }
+        } else {
+            header('Content-Type: application/json', true, 400);
+            echo json_encode(["message" => "Ano inválido"]);
+        }
+    }
 
     public function createBook()
     {

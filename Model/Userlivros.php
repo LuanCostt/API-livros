@@ -25,6 +25,34 @@ class Userlivros
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    //Buscar pelo titulo
+    public function getBooksTitle($title)
+{
+    $sql = "SELECT * FROM books WHERE title LIKE :title";
+    $stmt = $this->conn->prepare($sql);
+    $likeTitle = "%{$title}%";
+    $stmt->bindParam(":title", $likeTitle, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+    //Buscar pelo ID
+    public function getBookId($id)
+    {
+        $sql = "SELECT * FROM books WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    //Buscar pelo ano
+    public function getBooksYear($year)
+    {
+        $sql = "SELECT * FROM books WHERE published_year = :year";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":year", $year, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function createBook()
     {
