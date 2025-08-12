@@ -7,7 +7,6 @@ use Model\Connection;
 class Userlivros
 {
     private $conn;
-
     public $id;
     public $title;
     public $author;
@@ -25,27 +24,35 @@ class Userlivros
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    //Buscar pelo titulo
-    public function getBooksTitle($title)
-{
-    $sql = "SELECT * FROM books WHERE title LIKE :title";
-    $stmt = $this->conn->prepare($sql);
-    $likeTitle = "%{$title}%";
-    $stmt->bindParam(":title", $likeTitle, PDO::PARAM_STR);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
     //Buscar pelo ID
     public function getBookId($id)
     {
         $sql = "SELECT * FROM books WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT); // usa $id diretamente
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    //Buscar pelo ano
-    public function getBooksYear($year)
+    //Buscar pelo Título
+    public function getBookTitle($title)
+    {
+        $sql = "SELECT * FROM books WHERE title = :title";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":title", $title, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    //Buscar pelo Autor
+    public function getBookAuthor($author)
+    {
+        $sql = "SELECT * FROM books WHERE author = :author";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":author", $author, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    //Buscar pelo Ano
+    public function getBookYear($year)
     {
         $sql = "SELECT * FROM books WHERE published_year = :year";
         $stmt = $this->conn->prepare($sql);

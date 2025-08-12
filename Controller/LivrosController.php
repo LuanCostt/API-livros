@@ -26,8 +26,8 @@ class LivrosController
 
         if ($id) {
             $book = new Userlivros();
+            $book->id = $id;
             $result = $book->getBookId($id);
-
             if ($result) {
                 header('Content-Type: application/json', true, 200);
                 echo json_encode($result);
@@ -40,33 +40,53 @@ class LivrosController
             echo json_encode(["message" => "ID inválido"]);
         }
     }
-    public function getBooksTitle()
+    public function getBookTitle()
     {
         $title = $_GET['title'] ?? null;
 
         if ($title) {
             $book = new Userlivros();
-            $result = $book->getBooksTitle($title);
+            $result = $book->getBookTitle($title);
 
             if ($result) {
                 header('Content-Type: application/json', true, 200);
                 echo json_encode($result);
             } else {
                 header('Content-Type: application/json', true, 404);
-                echo json_encode(["message" => "Nenhum livro encontrado com o título \"$title\""]);
+                echo json_encode(["message" => "Livro não encontrado"]);
             }
         } else {
             header('Content-Type: application/json', true, 400);
             echo json_encode(["message" => "Título inválido"]);
         }
     }
-    public function getBooksYear()
+    public function getBookAuthor()
+    {
+        $author = $_GET['author'] ?? null;
+
+        if ($author) {
+            $book = new Userlivros();
+            $result = $book->getBookAuthor($author);
+
+            if ($result) {
+                header('Content-Type: application/json', true, 200);
+                echo json_encode($result);
+            } else {
+                header('Content-Type: application/json', true, 404);
+                echo json_encode(["message" => "Autor não encontrado"]);
+            }
+        } else {
+            header('Content-Type: application/json', true, 400);
+            echo json_encode(["message" => "Nome do autor inválido"]);
+        }
+    }
+    public function getBookYear()
     {
         $year = $_GET['year'] ?? null;
 
-        if ($year) {
+        if ($year && is_numeric($year)) {
             $book = new Userlivros();
-            $result = $book->getBooksYear($year);
+            $result = $book->getBookYear((int) $year);
 
             if ($result) {
                 header('Content-Type: application/json', true, 200);
@@ -81,6 +101,7 @@ class LivrosController
         }
     }
 
+
     public function createBook()
     {
         $data = json_decode(file_get_contents("php://input"));
@@ -90,6 +111,7 @@ class LivrosController
             $book->title = $data->title;
             $book->author = $data->author;
             $book->published_year = $data->published_year;
+
 
             if ($book->createBook()) {
                 header('Content-Type: application/json', true, 201);
