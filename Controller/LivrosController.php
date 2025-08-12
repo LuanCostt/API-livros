@@ -5,7 +5,7 @@ use Model\Userlivros;
 
 require_once __DIR__ . '/../Config/configuration.php';
 
-class UserlivrosController
+class LivrosController
 {
     public function getBooks()
     {

@@ -1,27 +1,32 @@
 <?php
 
-use Model\Connection;
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
-header("Access-Control-Allow-Headers: Content-Type");
+require_once __DIR__.'/vendor/autoload.php';
 
-require_once 'Config/configuration.php';
-require_once 'Model/Connection.php';
-require_once 'Model/Userlivros.php';
-require_once 'Controller/LivroController.php';
+use Controller\LivrosController;
+$livrosController = new LivrosController();
 
-$database = new Connection();
-$db = $database->getConnection();
-
-
-$userlivros = new Model\Userlivros($db);
-$controller = new Connection\LivroController($userlivros);
-
-$id = isset($_GET['id']) ? intval($_GET['id']) : null;
 $method = $_SERVER['REQUEST_METHOD'];
 
 
-$controller->processarRequisicao($method, $id);
-
+switch ($method) {
+    case 'GET':
+        $livrosController->getBooks();
+        break;
+    case 'POST':
+        $livrosController->createBook();
+        break;
+    case 'PUT':
+        $livrosController->updateBook();
+        break;
+    case 'DELETE':
+        $livrosController->deleteBook();
+        break;
+    default:
+        // FORMATA TEXTO EM JSON
+        echo json_encode(["message" => "Method not allowed"]);
+        break;
+}
+// if (empty($usuario)){
+//     echo "Vazio!";
+// }
 ?>
